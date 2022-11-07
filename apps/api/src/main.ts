@@ -11,7 +11,8 @@ async function bootstrap() {
   app.use(bodyParser.urlencoded({ limit: '20mb' }));
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
-  //change origin in prod
+  //change origin in dev
+  app.enableCors({ credentials: true, origin: 'http://localhost:4200' });
   const port = process.env.PORT || 3333;
   await app.listen(port);
   Logger.log(
