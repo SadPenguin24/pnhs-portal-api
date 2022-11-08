@@ -12,11 +12,8 @@ async function bootstrap() {
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
   //change origin in dev
-  const origin =
-    process.env.NODE_ENV === 'development'
-      ? 'http://localhost:4200'
-      : 'https://pnhs-portal-react.onrender.com';
-  app.enableCors({ credentials: true, origin: origin });
+
+  app.enableCors();
   const port = process.env.PORT || 3333;
   await app.listen(port);
   Logger.log(
