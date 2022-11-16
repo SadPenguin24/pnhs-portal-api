@@ -47,4 +47,11 @@ export class SectionController {
   createSection(@Body() body) {
     return this.sectionService.createSection(body);
   }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin, Role.Faculty)
+  @Get('/')
+  getSections() {
+    return this.sectionService.getSections();
+  }
 }

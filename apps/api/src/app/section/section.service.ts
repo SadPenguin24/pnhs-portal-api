@@ -18,9 +18,12 @@ export class SectionService {
     return await this.sectionModel.findById(id);
   }
 
+  async getSections() {
+    return await this.sectionModel.find();
+  }
+
   async createSection(body) {
     const students = await this.usersService.getRole(body.role);
-    //const faculty = await this.usersService.getUserById(body.teacher_id);
 
     const classStudents = [];
 
