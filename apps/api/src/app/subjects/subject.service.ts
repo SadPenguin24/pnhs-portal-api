@@ -26,6 +26,10 @@ export class SubjectService {
     return await this.subjectModel.findById(id);
   }
 
+  async getSubjects() {
+    return await this.subjectModel.find();
+  }
+
   //   async getAllClass(): Promise<Class> {
   //     const Class = await this.subjectModel.find({});
   //     return Class;

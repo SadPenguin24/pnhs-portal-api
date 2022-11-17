@@ -23,4 +23,11 @@ export class SubjectController {
   createSubject(@Body() body) {
     return this.subjectService.createSubject(body);
   }
+  
+  // @UseGuards(JwtAuthGuard, RolesGuard)
+  // @Roles(Role.Admin, Role.Faculty)
+  @Get('/')
+  getSubjects() {
+    return this.subjectService.getSubjects();
+  }
 }
