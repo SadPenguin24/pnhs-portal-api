@@ -1,7 +1,8 @@
 import { Injectable, NotAcceptableException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
-import { setCookie } from 'cookies-next';
+import { getCookie, setCookie } from 'cookies-next';
+import { jwtConstants } from './constants';
 
 import * as bcrypt from 'bcrypt';
 
@@ -37,11 +38,39 @@ export class AuthService {
     };
 
     const access_token = this.jwtService.sign(payload);
+    const refresh_token = this.jwtService.sign(payload, {
+      secret: jwtConstants.secret_refresh,
+      expiresIn: '30m',
+    });
     const fUser = await this.usersService.getUserById(user._id);
-
     return {
       user: fUser,
       access_token: access_token,
+      refresh_token: refresh_token,
     };
+  }
+  async refresh(refresh_token: any) {
+    const refresh_secret = jwtConstants.secret_refresh;
+    const verified_rt = this.jwtService.verify(refresh_token, {
+      secret: refresh_secret,
+    });
+
+    try {
+      if (verified_rt) {
+        const payload = {
+          username: verified_rt.email,
+          sub: verified_rt._id,
+          role: verified_rt.role,
+        };
+        const access_token = this.jwtService.sign(payload);
+        const refresh_token = this.jwtService.sign(payload, {
+          secret: jwtConstants.secret_refresh,
+          expiresIn: '30m',
+        });
+        return { access_token: access_token, refresh_token: refresh_token };
+      }
+    } catch (err) {
+      return `error: ${err}`;
+    }
   }
 }
