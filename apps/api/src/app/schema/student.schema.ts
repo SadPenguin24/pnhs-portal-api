@@ -9,6 +9,8 @@ export class Student {
   @Prop()
   strand: string;
   @Prop()
+  current_grade: string;
+  @Prop()
   report_card: ReportCard[];
 }
 

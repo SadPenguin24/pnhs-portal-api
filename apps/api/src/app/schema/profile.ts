@@ -19,6 +19,10 @@ export class Profile {
   lrn: string;
   @Prop()
   good_moral: string;
+  @Prop()
+  birth_date: string;
+  @Prop()
+  age: string;
 }
 
 export const ProfileSchema = SchemaFactory.createForClass(Profile);

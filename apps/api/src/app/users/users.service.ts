@@ -135,6 +135,7 @@ export class UsersService {
       student,
       faculty,
       admin,
+      profile,
     } = body;
     try {
       const existUser = await this.userModel.findOne({
@@ -157,6 +158,7 @@ export class UsersService {
           student: student,
           faculty: faculty,
           admin: admin,
+          profile: profile,
         });
         return newUser;
       }
@@ -176,6 +178,7 @@ export class UsersService {
       student,
       faculty,
       admin,
+      profile,
     } = body;
 
     const existUser = await this.userModel.findById({ _id: id });
@@ -197,6 +200,7 @@ export class UsersService {
         student: student ? student : existUser.student,
         faculty: faculty ? faculty : existUser.faculty,
         admin: admin ? admin : existUser.admin,
+        profile: profile ? profile : existUser.profile,
       }
     );
 
