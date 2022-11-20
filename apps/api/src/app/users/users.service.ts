@@ -100,6 +100,7 @@ export class UsersService {
         lrn: lrn,
         good_moral: good_moral,
       },
+      role: ['student'],
     });
 
     await this.enrolleeService.deleteEnrolleeById(id);

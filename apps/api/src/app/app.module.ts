@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { EnrolleeModule } from './enrollees/enrollees.module';
 import { SectionModule } from './section/section.module';
 import { SubjectModule } from './subjects/subject.module';
+import { ScheduleModule } from './schedule/schedule.module';
 import { UsersModule } from './users/users.module';
 
 @Module({
@@ -21,6 +22,7 @@ import { UsersModule } from './users/users.module';
     SectionModule,
     SubjectModule,
     EnrolleeModule,
+    ScheduleModule,
   ],
 })
 export class AppModule {}
