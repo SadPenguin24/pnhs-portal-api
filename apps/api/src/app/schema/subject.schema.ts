@@ -11,10 +11,6 @@ export class Subject {
   subject_name: string;
   @Prop()
   strand: string;
-  @Prop()
-  time_in: Date;
-  @Prop()
-  time_out: Date;
 }
 
 export const SubjectSchema = SchemaFactory.createForClass(Subject);

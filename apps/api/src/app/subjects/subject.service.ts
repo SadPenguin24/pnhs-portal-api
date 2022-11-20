@@ -15,11 +15,16 @@ export class SubjectService {
       _id: new Types.ObjectId(),
       subject_name: body.subject_name,
       strand: body.strand,
-      // time_in: body.time_in,
-      // time_out: body.time_out,
     });
 
     return newSubject;
+  }
+
+  async updateSubject(id, body) {
+    return await this.subjectModel.findByIdAndUpdate(id, {
+      subject_name: body.subject_name,
+      strand: body.strand,
+    });
   }
 
   async getSubject(id) {

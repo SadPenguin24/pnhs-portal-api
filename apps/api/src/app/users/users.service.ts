@@ -53,12 +53,18 @@ export class UsersService {
     }
   }
 
-  async addSubject(id, subject) {
+  async addSubject(id, subject, term) {
     return await this.userModel.findByIdAndUpdate(
       { _id: id },
       {
         $push: {
-          'student.report_card': { subject: subject, final_grade: 0 },
+          'student.report_card': {
+            subject: subject,
+            term: term,
+            first_half: 0,
+            second_half: 0,
+            final_grade: 0,
+          },
         },
       }
     );
@@ -117,7 +123,10 @@ export class UsersService {
 
     const patchedUser = user.student;
 
-    patchedUser.report_card[subj_index].final_grade = body.grade;
+    patchedUser.report_card[subj_index].term = body.term;
+    patchedUser.report_card[subj_index].first_half = body.first_half;
+    patchedUser.report_card[subj_index].second_half = body.second_half;
+    patchedUser.report_card[subj_index].final_grade = body.final_grade;
 
     return await this.userModel.findByIdAndUpdate(
       { _id: student_id },

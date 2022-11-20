@@ -57,14 +57,14 @@ export class SectionService {
     return parsedSection;
   }
 
-  async addSubjectToSection(section_id, subject_id) {
+  async addSubjectToSection(section_id, subject_id, term) {
     const subject = await this.subjectService.getSubject(subject_id);
     const section = await this.getSection(section_id);
     section.students_id.map(async (id) => {
-      await this.usersService.addSubject(id, subject);
+      await this.usersService.addSubject(id, subject, term);
     });
 
-    await this.sectionModel.findByIdAndUpdate(
+    return await this.sectionModel.findByIdAndUpdate(
       { _id: section_id },
       {
         $push: {

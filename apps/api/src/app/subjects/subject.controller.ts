@@ -1,9 +1,9 @@
-import { Body, Post, Controller, Param, Get } from '@nestjs/common';
-//* ^^ */ import { UseGuards } from '@nestjs/common';
-// import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-// import { Roles } from '../roles/roles.decorator';
-// import { Role } from '../roles/role.enum';
-// import { RolesGuard } from '../roles/roles.guard';
+import { Body, Post, Controller, Param, Get, Patch } from '@nestjs/common';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { Roles } from '../roles/roles.decorator';
+import { Role } from '../roles/role.enum';
+import { RolesGuard } from '../roles/roles.guard';
 import { SubjectService } from './subject.service';
 
 @Controller('subject')
@@ -23,7 +23,14 @@ export class SubjectController {
   createSubject(@Body() body) {
     return this.subjectService.createSubject(body);
   }
-  
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin, Role.Faculty)
+  @Patch('/update/:id')
+  updateSubject(@Param() param, @Body() body) {
+    return this.subjectService.updateSubject(param.id, body);
+  }
+
   // @UseGuards(JwtAuthGuard, RolesGuard)
   // @Roles(Role.Admin, Role.Faculty)
   @Get('/')

@@ -37,7 +37,8 @@ export class SectionController {
   addSubjectToSection(@Param() param) {
     return this.sectionService.addSubjectToSection(
       param.section_id,
-      param.subject_id
+      param.subject_id,
+      param.term
     );
   }
 
