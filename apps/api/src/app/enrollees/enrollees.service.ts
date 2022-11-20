@@ -57,4 +57,8 @@ export class EnrolleeService {
   async getEnrolleeById(id) {
     return await this.enrolleeModel.findById({ _id: id });
   }
+
+  async deleteEnrolleeById(id) {
+    return await this.enrolleeModel.findByIdAndDelete({ _id: id });
+  }
 }
