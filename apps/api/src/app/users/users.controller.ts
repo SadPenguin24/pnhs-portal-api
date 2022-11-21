@@ -41,9 +41,9 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin, Role.Faculty)
-  @Get('role')
-  getRole(@Body() body) {
-    return this.usersService.getRole(body);
+  @Get('role/:role_name')
+  getRole(@Param() param) {
+    return this.usersService.getRole(param.role_name);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
