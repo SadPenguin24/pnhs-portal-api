@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import { Model } from 'mongoose';
 import { EnrolleeDocument } from './enrollees.schema';
 import * as bcrypt from 'bcrypt';
 
@@ -56,5 +56,9 @@ export class EnrolleeService {
 
   async getEnrolleeById(id) {
     return await this.enrolleeModel.findById({ _id: id });
+  }
+
+  async deleteEnrolleeById(id) {
+    return await this.enrolleeModel.findByIdAndDelete({ _id: id });
   }
 }

@@ -1,4 +1,4 @@
-import { Body, Post, Controller, Param, Get } from '@nestjs/common';
+import { Body, Post, Controller, Param, Get, Delete } from '@nestjs/common';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Roles } from '../roles/roles.decorator';
@@ -27,5 +27,12 @@ export class EnrolleeController {
   @Get('/:id')
   getEnrolleeById(@Param() param) {
     return this.enrolleeService.getEnrolleeById(param.id);
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin, Role.Faculty)
+  @Delete('/:id')
+  deleteEnrolleeById(@Param() param) {
+    return this.enrolleeService.deleteEnrolleeById(param.id);
   }
 }
