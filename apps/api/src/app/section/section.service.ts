@@ -4,6 +4,7 @@ import { Model, Types } from 'mongoose';
 import { SectionDocument } from '../schema/section.schema';
 import { SubjectService } from '../subjects/subject.service';
 import { UsersService } from '../users/users.service';
+import { ScheduleService } from '../schedule/schedule.service';
 
 @Injectable()
 export class SectionService {
@@ -11,7 +12,8 @@ export class SectionService {
     @InjectModel('section')
     private sectionModel: Model<SectionDocument>,
     private readonly usersService: UsersService,
-    private readonly subjectService: SubjectService
+    private readonly subjectService: SubjectService,
+    private readonly scheduleService: ScheduleService
   ) {}
 
   async getSection(id) {
@@ -74,26 +76,51 @@ export class SectionService {
     );
   }
 
+  async addScheduleToSection(section_id, schedule_id) {
+    return await this.sectionModel.findByIdAndUpdate(
+      { _id: section_id },
+      {
+        $push: {
+          schedules_id: schedule_id,
+        },
+      }
+    );
+  }
+
   async getParsedSection(id) {
     const originSection = await this.getSection(id);
     const parsedSection = Object.entries(originSection)[2][1];
     const faculty = await this.usersService.getUserById(
       originSection.teacher_id
     );
-    const promisedStudents = [];
-    await originSection.students_id.map((id) =>
-      promisedStudents.push(this.usersService.getUserById(id))
+
+    const promisedStudents = await Promise.all(
+      originSection.students_id.map(
+        async (id) => await this.usersService.getUserById(id)
+      )
+    );
+    const promisedSchedules = await Promise.all(
+      originSection.schedules_id.map(
+        async (id) => await this.scheduleService.getSchedule(id)
+      )
     );
 
     delete parsedSection.students_id;
+    delete parsedSection.schedules_id;
     delete parsedSection.teacher_id;
 
     parsedSection['teacher'] = faculty;
+    parsedSection['students'] = promisedStudents;
+    parsedSection['schedules'] = promisedSchedules;
 
-    return Promise.all(promisedStudents).then((students) => {
-      parsedSection['students'] = students;
-      return parsedSection;
-    });
+    return parsedSection;
+
+    // Promise.all(promisedSchedules).then((schedules) => {
+    //   parsedSection['schedules'] = schedules;
+    //   return parsedSection;
+    // });
+
+    // return parsedSection;
   }
 
   //   async getAllClass(): Promise<Class> {

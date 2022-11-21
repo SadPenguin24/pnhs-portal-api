@@ -33,12 +33,22 @@ export class SectionController {
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin, Role.Faculty)
-  @Patch('/:section_id/:subject_id')
+  @Patch('/:section_id/:subject_id/:term')
   addSubjectToSection(@Param() param) {
     return this.sectionService.addSubjectToSection(
       param.section_id,
       param.subject_id,
       param.term
+    );
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin, Role.Faculty)
+  @Patch('/:section_id/:schedule_id')
+  addScheduleToSection(@Param() param) {
+    return this.sectionService.addScheduleToSection(
+      param.section_id,
+      param.schedule_id
     );
   }
 

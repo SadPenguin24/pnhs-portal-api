@@ -35,8 +35,8 @@ export class UsersService {
     return user;
   }
 
-  async getRole(body) {
-    const userRole = await this.userModel.find({ role: body.role || body });
+  async getRole(role_name) {
+    const userRole = await this.userModel.find({ role: role_name });
     return userRole;
   }
 

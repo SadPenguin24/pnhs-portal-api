@@ -21,7 +21,7 @@ export class Section {
   @Prop()
   subjects: Subject[];
   @Prop()
-  schedules: Schedule[];
+  schedules_id: string[];
 }
 
 export const SectionSchema = SchemaFactory.createForClass(Section);
