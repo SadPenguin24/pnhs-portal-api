@@ -10,7 +10,7 @@ export class Schedule {
   @Prop()
   subject_id: string;
   @Prop()
-  days: string;
+  days: string[];
   @Prop()
   time_in: string;
   @Prop()
