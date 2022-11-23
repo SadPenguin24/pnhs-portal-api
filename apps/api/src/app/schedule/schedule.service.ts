@@ -44,18 +44,18 @@ export class ScheduleService {
     delete parsedSchedule.subject_id;
 
     return parsedSchedule;
+  }
 
-    // const parsedSchedule = Object.entries(originSchedule)[2][1];
-    // const teacher = await this.usersService.getUserById(
-    //   originSchedule.teacher_id
-    // );
-
-    // parsedSchedule['teacher'] = teacher;
-
-    // return Promise.all(promisedStudents).then((students) => {
-    //   parsedSchedule['students'] = students;
-    //   return parsedSchedule;
-    // });
+  async updateSchedule(id, body) {
+    const { teacher_id, subject_id, days, time_in, time_out } = body;
+    const schedule = await this.getSchedule(id);
+    return await this.scheduleModel.findByIdAndUpdate(id, {
+      teacher_id: teacher_id ?? schedule.teacher_id,
+      subject_id: subject_id ?? schedule.subject_id,
+      days: days ?? schedule.days,
+      time_in: time_in ?? schedule.time_in,
+      time_out: time_out ?? schedule.time_out,
+    });
   }
 
   async getSchedule(id) {
@@ -65,9 +65,4 @@ export class ScheduleService {
   async getSchedules() {
     return await this.scheduleModel.find();
   }
-
-  //   async getAllClass(): Promise<Class> {
-  //     const Class = await this.scheduleModel.find({});
-  //     return Class;
-  //   }
 }

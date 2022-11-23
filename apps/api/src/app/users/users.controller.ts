@@ -52,6 +52,12 @@ export class UsersController {
   getUserById(@Param() param) {
     return this.usersService.getUserById(param.id);
   }
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin)
+  @Get('/update/:id')
+  updateUser(@Param() param, @Body() body) {
+    return this.usersService.updateUser(param.id, body);
+  }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin, Role.Faculty)
@@ -64,8 +70,8 @@ export class UsersController {
     );
   }
 
-  // @UseGuards(JwtAuthGuard, RolesGuard)
-  // @Roles(Role.Admin)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin)
   @Post('/etos/:id')
   convertEtoS(@Param() param) {
     return this.usersService.convertEtoS(param.id);

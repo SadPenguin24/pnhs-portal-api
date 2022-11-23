@@ -1,4 +1,4 @@
-import { Body, Post, Controller, Param, Get, Patch } from '@nestjs/common';
+import { Body, Post, Controller, Param, Get, Patch, Put } from '@nestjs/common';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Roles } from '../roles/roles.decorator';
@@ -10,15 +10,15 @@ import { SubjectService } from './subject.service';
 export class SubjectController {
   constructor(private subjectService: SubjectService) {}
 
-  // @UseGuards(JwtAuthGuard, RolesGuard)
-  // @Roles(Role.Admin, Role.Faculty)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin, Role.Faculty)
   @Get('/:id')
   getSubject(@Param() param) {
     return this.subjectService.getSubject(param.id);
   }
 
-  // @UseGuards(JwtAuthGuard, RolesGuard)
-  // @Roles(Role.Admin, Role.Faculty)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin, Role.Faculty)
   @Post('create')
   createSubject(@Body() body) {
     return this.subjectService.createSubject(body);
@@ -26,13 +26,13 @@ export class SubjectController {
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin, Role.Faculty)
-  @Patch('/update/:id')
+  @Put('/update/:id')
   updateSubject(@Param() param, @Body() body) {
     return this.subjectService.updateSubject(param.id, body);
   }
 
-  // @UseGuards(JwtAuthGuard, RolesGuard)
-  // @Roles(Role.Admin, Role.Faculty)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin, Role.Faculty)
   @Get('/')
   getSubjects() {
     return this.subjectService.getSubjects();

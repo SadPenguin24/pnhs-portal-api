@@ -178,8 +178,7 @@ export class UsersService {
       console.log('error create User: ', err);
     }
   }
-
-  async editUser(id, body) {
+  async updateUser(id, body): Promise<User> {
     const {
       email,
       password,
@@ -192,31 +191,25 @@ export class UsersService {
       admin,
       profile,
     } = body;
+    const user = await this.getUserById(id);
+    try {
+      const hashPass = await bcrypt.hash(password, 10);
 
-    const existUser = await this.userModel.findById({ _id: id });
-
-    if (existUser) {
-      return 'User Exists';
+      return await this.userModel.create({
+        last_name: last_name ?? user.last_name,
+        first_name: first_name ?? user.first_name,
+        middle_name: middle_name ?? user.middle_name,
+        email: email ?? user.email,
+        password: hashPass ?? user.password,
+        role: role ?? user.role,
+        student: student ?? user.student,
+        faculty: faculty ?? user.faculty,
+        admin: admin ?? user.admin,
+        profile: profile ?? user.profile,
+      });
+    } catch (err) {
+      console.log('error create User: ', err);
     }
-    const hashPass = await bcrypt.hash(password, 10);
-
-    const updateUser = await this.userModel.findByIdAndUpdate(
-      { _id: id },
-      {
-        last_name: last_name ? last_name : existUser.last_name,
-        first_name: first_name ? first_name : existUser.first_name,
-        middle_name: middle_name ? middle_name : existUser.middle_name,
-        email: email ? email : existUser.email,
-        password: password ? hashPass : existUser.password,
-        role: role ? role : existUser.role,
-        student: student ? student : existUser.student,
-        faculty: faculty ? faculty : existUser.faculty,
-        admin: admin ? admin : existUser.admin,
-        profile: profile ? profile : existUser.profile,
-      }
-    );
-
-    return updateUser;
   }
 
   async listStudentStrand(body) {

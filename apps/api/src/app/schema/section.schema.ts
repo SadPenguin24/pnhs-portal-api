@@ -19,8 +19,6 @@ export class Section {
   @Prop()
   school_year: string;
   @Prop()
-  subjects: Subject[];
-  @Prop()
   schedules_id: string[];
 }
 

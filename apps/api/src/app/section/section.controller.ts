@@ -6,6 +6,7 @@ import {
   Param,
   Get,
   Patch,
+  Put,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Roles } from '../roles/roles.decorator';
@@ -57,6 +58,12 @@ export class SectionController {
   @Post('create')
   createSection(@Body() body) {
     return this.sectionService.createSection(body);
+  }
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin, Role.Faculty)
+  @Put('/update/:id')
+  updateSection(@Param() param, @Body() body) {
+    return this.sectionService.updateSection(param.id, body);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
