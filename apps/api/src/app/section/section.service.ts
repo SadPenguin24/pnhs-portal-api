@@ -42,6 +42,7 @@ export class SectionService {
       section_name: body.section_name,
       teacher_id: body.teacher_id,
       students_id: body.students_id,
+      schedules_id: body.schedules_id,
       school_year: body.school_year,
     });
 
@@ -49,6 +50,45 @@ export class SectionService {
       body.students_id.map((id) =>
         this.usersService.assignSectionToUser('student', parsedSection, id)
       );
+      this.usersService.assignSectionToUser(
+        'faculty',
+        parsedSection,
+        body.teacher_id
+      );
+    }
+
+    return parsedSection;
+  }
+  async updateSection(id, body) {
+    const students = await this.usersService.getRole(body.role);
+    const section = await this.getSection(id);
+
+    const classStudents = [];
+
+    if (body.students_id) {
+      body.students_id.map((student) => {
+        students.map((v) => {
+          if (v._id.toString() === student) {
+            classStudents.push(v);
+          }
+        });
+      });
+    }
+
+    const parsedSection = await this.sectionModel.findByIdAndUpdate(id, {
+      section_name: body.section_name ?? section.section_name,
+      teacher_id: body.teacher_id ?? section.teacher_id,
+      students_id: body.students_id ?? section.students_id,
+      schedules_id: body.schedules_id ?? section.schedules_id,
+      school_year: body.school_year ?? section.school_year,
+    });
+
+    if (body.students_id) {
+      body.students_id.map((id) =>
+        this.usersService.assignSectionToUser('student', parsedSection, id)
+      );
+    }
+    if (body.teacher_id) {
       this.usersService.assignSectionToUser(
         'faculty',
         parsedSection,
@@ -114,18 +154,5 @@ export class SectionService {
     parsedSection['schedules'] = promisedSchedules;
 
     return parsedSection;
-
-    // Promise.all(promisedSchedules).then((schedules) => {
-    //   parsedSection['schedules'] = schedules;
-    //   return parsedSection;
-    // });
-
-    // return parsedSection;
   }
-
-  //   async getAllClass(): Promise<Class> {
-  //     const Class = await this.sectionModel.find({});
-
-  //     return Class;
-  //   }
 }

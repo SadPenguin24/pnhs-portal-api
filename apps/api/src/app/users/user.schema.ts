@@ -14,7 +14,7 @@ export class User {
   last_name: string;
   @Prop({ required: true })
   first_name: string;
-  @Prop({ required: true })
+  @Prop()
   middle_name: string;
   @Prop({ required: true })
   email: string;
