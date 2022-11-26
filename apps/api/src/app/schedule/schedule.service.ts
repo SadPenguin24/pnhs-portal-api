@@ -53,11 +53,6 @@ export class ScheduleService {
         async (schedule) => await this.getParsedSchedule(schedule['_id'])
       )
     );
-    // return await Promise.all(
-    //   schedules.map(async (schedule) => {
-    //     schedule;
-    //   })
-    // );
   }
 
   async updateSchedule(id, body) {

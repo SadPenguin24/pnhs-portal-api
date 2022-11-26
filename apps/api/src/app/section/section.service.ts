@@ -59,6 +59,20 @@ export class SectionService {
 
     return parsedSection;
   }
+
+  async facultySectionHandler() {
+    const sections = await this.getSections();
+    return Promise.all(
+      sections.map(async (section) => {
+        return await this.usersService.assignSectionToUser(
+          'faculty',
+          section.teacher_id,
+          section._id
+        );
+      })
+    );
+  }
+
   async updateSection(id, body) {
     const students = await this.usersService.getRole(body.role);
     const section = await this.getSection(id);
@@ -141,7 +155,7 @@ export class SectionService {
     );
     const promisedSchedules = await Promise.all(
       originSection.schedules_id.map(
-        async (id) => await this.scheduleService.getSchedule(id)
+        async (id) => await this.scheduleService.getParsedSchedule(id)
       )
     );
 
@@ -154,5 +168,14 @@ export class SectionService {
     parsedSection['schedules'] = promisedSchedules;
 
     return parsedSection;
+  }
+
+  async getAllParsedSections() {
+    const sections = await this.getSections();
+    return await Promise.all(
+      sections.map(
+        async (section) => await this.getParsedSection(section['_id'])
+      )
+    );
   }
 }

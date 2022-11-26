@@ -24,7 +24,7 @@ export class ScheduleController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('/all')
+  @Get('/parsed')
   getAllParsedSchedules() {
     return this.scheduleService.getAllParsedSchedules();
   }

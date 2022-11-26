@@ -46,11 +46,15 @@ export class UsersService {
         'student.section_id': section_id.toString(),
       });
     } else if (type === 'faculty') {
-      return await this.userModel.findByIdAndUpdate(user_id, {
-        $push: {
-          'faculty.section_ids': section_id.toString(),
-        },
-      });
+      const teacher = await this.getUserById(user_id);
+      if (!teacher.faculty.section_ids.includes(section_id)) {
+        return await this.userModel.findByIdAndUpdate(user_id, {
+          $push: {
+            'faculty.section_ids': section_id.toString(),
+          },
+        });
+      }
+      return 'section is already in faculty';
     }
   }
 
