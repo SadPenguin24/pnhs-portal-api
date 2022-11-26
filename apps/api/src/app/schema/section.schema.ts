@@ -13,6 +13,12 @@ export class Section {
   @Prop()
   section_name: string;
   @Prop()
+  term: string;
+  @Prop()
+  grade_level: string;
+  @Prop()
+  strand: string;
+  @Prop()
   teacher_id: string;
   @Prop()
   students_id: string[];

@@ -9,21 +9,6 @@ import { ScheduleService } from './schedule.service';
 @Controller('schedule')
 export class ScheduleController {
   constructor(private scheduleService: ScheduleService) {}
-
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.Admin, Role.Faculty)
-  @Post('/create')
-  createSchedule(@Body() body) {
-    return this.scheduleService.createSchedule(body);
-  }
-
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.Admin, Role.Faculty)
-  @Get('/:id')
-  getSchedule(@Param() param) {
-    return this.scheduleService.getSchedule(param.id);
-  }
-
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin, Role.Faculty)
   @Put('/update/:id')
@@ -36,6 +21,26 @@ export class ScheduleController {
   @Get('/parsed/:id')
   getParsedSchedule(@Param() param) {
     return this.scheduleService.getParsedSchedule(param.id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/all')
+  getAllParsedSchedules() {
+    return this.scheduleService.getAllParsedSchedules();
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin, Role.Faculty)
+  @Get('/:id')
+  getSchedule(@Param() param) {
+    return this.scheduleService.getSchedule(param.id);
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin, Role.Faculty)
+  @Post('/create')
+  createSchedule(@Body() body) {
+    return this.scheduleService.createSchedule(body);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)

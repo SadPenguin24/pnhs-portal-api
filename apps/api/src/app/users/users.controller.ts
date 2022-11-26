@@ -7,6 +7,7 @@ import {
   UseGuards,
   Param,
   Put,
+  Patch,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Roles } from '../roles/roles.decorator';
@@ -67,6 +68,17 @@ export class UsersController {
       param.student_id,
       param.subject_id,
       body
+    );
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin, Role.Faculty)
+  @Patch('/:type/:user_id/:schedule_id')
+  assignSectionToUser(@Param() param) {
+    return this.usersService.assignSectionToUser(
+      param.type,
+      param.user_id,
+      param.section_id
     );
   }
 

@@ -1,10 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Schema as MongooseSchema } from 'mongoose';
 
 export type ScheduleDocument = Schedule & Document;
 
 @Schema()
 export class Schedule {
+  @Prop()
+  _id: MongooseSchema.Types.ObjectId;
   @Prop()
   teacher_id: string;
   @Prop()

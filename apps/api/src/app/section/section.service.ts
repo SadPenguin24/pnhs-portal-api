@@ -48,12 +48,12 @@ export class SectionService {
 
     if (parsedSection) {
       body.students_id.map((id) =>
-        this.usersService.assignSectionToUser('student', parsedSection, id)
+        this.usersService.assignSectionToUser('student', id, parsedSection._id)
       );
       this.usersService.assignSectionToUser(
         'faculty',
-        parsedSection,
-        body.teacher_id
+        body.teacher_id,
+        parsedSection._id
       );
     }
 
@@ -85,14 +85,14 @@ export class SectionService {
 
     if (body.students_id) {
       body.students_id.map((id) =>
-        this.usersService.assignSectionToUser('student', parsedSection, id)
+        this.usersService.assignSectionToUser('student', id, parsedSection._id)
       );
     }
     if (body.teacher_id) {
       this.usersService.assignSectionToUser(
         'faculty',
-        parsedSection,
-        body.teacher_id
+        body.teacher_id,
+        parsedSection._id
       );
     }
 
