@@ -48,17 +48,31 @@ export class SectionService {
 
     if (parsedSection) {
       body.students_id.map((id) =>
-        this.usersService.assignSectionToUser('student', parsedSection, id)
+        this.usersService.assignSectionToUser('student', id, parsedSection._id)
       );
       this.usersService.assignSectionToUser(
         'faculty',
-        parsedSection,
-        body.teacher_id
+        body.teacher_id,
+        parsedSection._id
       );
     }
 
     return parsedSection;
   }
+
+  async facultySectionHandler() {
+    const sections = await this.getSections();
+    return Promise.all(
+      sections.map(async (section) => {
+        return await this.usersService.assignSectionToUser(
+          'faculty',
+          section.teacher_id,
+          section._id
+        );
+      })
+    );
+  }
+
   async updateSection(id, body) {
     const students = await this.usersService.getRole(body.role);
     const section = await this.getSection(id);
@@ -85,14 +99,14 @@ export class SectionService {
 
     if (body.students_id) {
       body.students_id.map((id) =>
-        this.usersService.assignSectionToUser('student', parsedSection, id)
+        this.usersService.assignSectionToUser('student', id, parsedSection._id)
       );
     }
     if (body.teacher_id) {
       this.usersService.assignSectionToUser(
         'faculty',
-        parsedSection,
-        body.teacher_id
+        body.teacher_id,
+        parsedSection._id
       );
     }
 
@@ -141,7 +155,7 @@ export class SectionService {
     );
     const promisedSchedules = await Promise.all(
       originSection.schedules_id.map(
-        async (id) => await this.scheduleService.getSchedule(id)
+        async (id) => await this.scheduleService.getParsedSchedule(id)
       )
     );
 
@@ -154,5 +168,14 @@ export class SectionService {
     parsedSection['schedules'] = promisedSchedules;
 
     return parsedSection;
+  }
+
+  async getAllParsedSections() {
+    const sections = await this.getSections();
+    return await Promise.all(
+      sections.map(
+        async (section) => await this.getParsedSection(section['_id'])
+      )
+    );
   }
 }

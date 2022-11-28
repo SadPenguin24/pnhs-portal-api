@@ -40,16 +40,21 @@ export class UsersService {
     return userRole;
   }
 
-  async assignSectionToUser(type, section, id) {
-    console.log('SECTION: ', section);
+  async assignSectionToUser(type, user_id, section_id) {
     if (type === 'student') {
-      return await this.userModel.findByIdAndUpdate(id, {
-        section_id: section._id.toString(),
+      return await this.userModel.findByIdAndUpdate(user_id, {
+        'student.section_id': section_id.toString(),
       });
     } else if (type === 'faculty') {
-      return await this.userModel.findByIdAndUpdate(id, {
-        section_id: section._id.toString(),
-      });
+      const teacher = await this.getUserById(user_id);
+      if (!teacher.faculty.section_ids.includes(section_id)) {
+        return await this.userModel.findByIdAndUpdate(user_id, {
+          $push: {
+            'faculty.section_ids': section_id.toString(),
+          },
+        });
+      }
+      return 'section is already in faculty';
     }
   }
 

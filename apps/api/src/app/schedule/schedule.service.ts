@@ -46,6 +46,15 @@ export class ScheduleService {
     return parsedSchedule;
   }
 
+  async getAllParsedSchedules() {
+    const schedules = await this.getSchedules();
+    return await Promise.all(
+      schedules.map(
+        async (schedule) => await this.getParsedSchedule(schedule['_id'])
+      )
+    );
+  }
+
   async updateSchedule(id, body) {
     const { teacher_id, subject_id, days, time_in, time_out } = body;
     const schedule = await this.getSchedule(id);

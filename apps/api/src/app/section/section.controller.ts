@@ -19,6 +19,19 @@ export class SectionController {
   constructor(private sectionService: SectionService) {}
 
   @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin)
+  @Patch('/faculty/handler')
+  facultySectionHandler() {
+    return this.sectionService.facultySectionHandler();
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin, Role.Faculty)
+  @Get('/parsed')
+  getAllParsedSections() {
+    return this.sectionService.getAllParsedSections();
+  }
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin, Role.Faculty)
   @Get('/parsed/:id')
   getParsedSection(@Param() param) {

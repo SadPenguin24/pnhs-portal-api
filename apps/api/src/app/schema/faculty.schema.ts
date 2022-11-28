@@ -7,9 +7,7 @@ export type FacultyDocument = Faculty & Document;
 @Schema()
 export class Faculty {
   @Prop()
-  subjects_id: string[];
-  @Prop()
-  section: Section;
+  section_ids: string[];
 }
 
 export const FacultySchema = SchemaFactory.createForClass(Faculty);
