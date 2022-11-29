@@ -54,7 +54,7 @@ export class UsersController {
     return this.usersService.getUserById(param.id);
   }
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.Admin)
+  @Roles(Role.Admin, Role.Faculty, Role.Student)
   @Put('/update/:id')
   updateUser(@Param() param, @Body() body) {
     return this.usersService.updateUser(param.id, body);
