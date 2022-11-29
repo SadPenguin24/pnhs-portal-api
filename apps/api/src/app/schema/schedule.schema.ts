@@ -12,6 +12,8 @@ export class Schedule {
   @Prop()
   subject_id: string;
   @Prop()
+  section_id: string;
+  @Prop()
   days: string[];
   @Prop()
   time_in: string;

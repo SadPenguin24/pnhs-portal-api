@@ -9,6 +9,8 @@ export class ReportCard {
   @Prop()
   subject: Subject;
   @Prop()
+  grade_level: number;
+  @Prop()
   term: number;
   @Prop()
   first_half: number;

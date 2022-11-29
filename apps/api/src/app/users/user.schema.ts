@@ -10,17 +10,17 @@ export type UserDocument = User & Document;
 export class User {
   @Prop()
   _id: MongooseSchema.Types.ObjectId;
-  @Prop({ required: true })
+  @Prop()
   last_name: string;
-  @Prop({ required: true })
+  @Prop()
   first_name: string;
   @Prop()
   middle_name: string;
-  @Prop({ required: true })
+  @Prop()
   email: string;
-  @Prop({ required: true })
+  @Prop()
   password: string;
-  @Prop({ required: true })
+  @Prop()
   role: Role[];
   @Prop()
   admin: [];

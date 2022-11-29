@@ -47,13 +47,9 @@ export class SectionController {
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin, Role.Faculty)
-  @Patch('/:section_id/:subject_id/:term')
-  addSubjectToSection(@Param() param) {
-    return this.sectionService.addSubjectToSection(
-      param.section_id,
-      param.subject_id,
-      param.term
-    );
+  @Patch('/asts')
+  addSubjectToSection(@Body() body) {
+    return this.sectionService.addSubjectToSection(body);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)

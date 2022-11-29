@@ -47,10 +47,10 @@ export class UsersService {
       });
     } else if (type === 'faculty') {
       const teacher = await this.getUserById(user_id);
-      if (!teacher.faculty.section_ids.includes(section_id)) {
+      if (!teacher.faculty.advisory_section_ids.includes(section_id)) {
         return await this.userModel.findByIdAndUpdate(user_id, {
           $push: {
-            'faculty.section_ids': section_id.toString(),
+            'faculty.advisory_section_ids': section_id.toString(),
           },
         });
       }
@@ -58,7 +58,8 @@ export class UsersService {
     }
   }
 
-  async addSubject(id, subject, term) {
+  async addSubject(id, body) {
+    const { subject, term, grade_level } = body;
     return await this.userModel.findByIdAndUpdate(
       { _id: id },
       {
@@ -66,6 +67,7 @@ export class UsersService {
           'student.report_card': {
             subject: subject,
             term: term,
+            grade_level: grade_level,
             first_half: 0,
             second_half: 0,
             final_grade: 0,
@@ -183,6 +185,7 @@ export class UsersService {
       console.log('error create User: ', err);
     }
   }
+
   async updateUser(id, body): Promise<User> {
     const {
       email,
@@ -198,9 +201,12 @@ export class UsersService {
     } = body;
     const user = await this.getUserById(id);
     try {
-      const hashPass = await bcrypt.hash(password, 10);
+      let hashPass = password;
+      if (password) {
+        hashPass = await bcrypt.hash(password, 10);
+      }
 
-      return await this.userModel.create({
+      return await this.userModel.findByIdAndUpdate(id, {
         last_name: last_name ?? user.last_name,
         first_name: first_name ?? user.first_name,
         middle_name: middle_name ?? user.middle_name,
