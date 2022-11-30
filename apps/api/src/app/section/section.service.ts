@@ -47,14 +47,23 @@ export class SectionService {
     });
 
     if (parsedSection) {
-      body.students_id.map((id) =>
-        this.usersService.assignSectionToUser('student', id, parsedSection._id)
+      body.students_id.map(
+        async (id) =>
+          await this.usersService.assignSectionToUser(
+            'student',
+            id,
+            parsedSection._id
+          )
       );
-      this.usersService.assignSectionToUser(
+      await this.usersService.assignSectionToUser(
         'faculty',
         body.teacher_id,
         parsedSection._id
       );
+      const theBody = { section_id: parsedSection._id };
+      parsedSection.schedules_id.map(async (schedule_id) => {
+        await this.scheduleService.updateSchedule(schedule_id, theBody);
+      });
     }
 
     return parsedSection;

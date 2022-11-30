@@ -58,6 +58,17 @@ export class UsersService {
     }
   }
 
+  async insertScheduleToFaculty(teacher_id, schedule_id, section_id) {
+    return await this.userModel.findByIdAndUpdate(teacher_id, {
+      $push: {
+        'faculty.handled_subjects': {
+          section_id: section_id,
+          schedule_id: schedule_id,
+        },
+      },
+    });
+  }
+
   async addSubject(id, body) {
     const { subject, term, grade_level } = body;
     return await this.userModel.findByIdAndUpdate(

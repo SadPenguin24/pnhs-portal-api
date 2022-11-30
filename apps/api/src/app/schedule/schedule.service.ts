@@ -19,6 +19,7 @@ export class ScheduleService {
       _id: new Types.ObjectId(),
       teacher_id: body.teacher_id,
       subject_id: body.subject_id,
+      section_id: body.section_id,
       days: body.days,
       time_in: body.time_in,
       time_out: body.time_out,
@@ -55,12 +56,34 @@ export class ScheduleService {
     );
   }
 
+  async assignAllScheduleToFaculty() {
+    const schedules = await this.getSchedules();
+    schedules.map(async (schedule) => {
+      await this.usersService.insertScheduleToFaculty(
+        schedule.teacher_id,
+        schedule._id,
+        schedule.section_id
+      );
+    });
+  }
+
   async updateSchedule(id, body) {
-    const { teacher_id, subject_id, days, time_in, time_out } = body;
+    const { teacher_id, subject_id, section_id, days, time_in, time_out } =
+      body;
     const schedule = await this.getSchedule(id);
+
+    if (section_id) {
+      await this.usersService.insertScheduleToFaculty(
+        teacher_id ?? schedule.teacher_id,
+        id,
+        section_id
+      );
+    }
+
     return await this.scheduleModel.findByIdAndUpdate(id, {
       teacher_id: teacher_id ?? schedule.teacher_id,
       subject_id: subject_id ?? schedule.subject_id,
+      section_id: section_id ?? schedule.section_id,
       days: days ?? schedule.days,
       time_in: time_in ?? schedule.time_in,
       time_out: time_out ?? schedule.time_out,

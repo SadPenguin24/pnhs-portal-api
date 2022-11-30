@@ -9,7 +9,10 @@ export class Faculty {
   @Prop()
   advisory_section_ids: string[];
   @Prop()
-  schedule_ids: string[];
+  handled_subjects: {
+    section_id: string;
+    schedule_id: string;
+  }[];
 }
 
 export const FacultySchema = SchemaFactory.createForClass(Faculty);
