@@ -48,7 +48,7 @@ export class UsersController {
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.Admin)
+  @Roles(Role.Admin, Role.Faculty)
   @Get('/:id')
   getUserById(@Param() param) {
     return this.usersService.getUserById(param.id);
