@@ -55,10 +55,11 @@ export class SectionController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin, Role.Faculty)
   @Patch('/:section_id/:schedule_id')
-  addScheduleToSection(@Param() param) {
+  addScheduleToSection(@Param() param, @Body() body) {
     return this.sectionService.addScheduleToSection(
       param.section_id,
-      param.schedule_id
+      param.schedule_id,
+      body
     );
   }
 

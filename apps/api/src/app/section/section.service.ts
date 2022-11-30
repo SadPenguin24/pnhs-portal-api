@@ -40,6 +40,9 @@ export class SectionService {
     const parsedSection = await this.sectionModel.create({
       _id: new Types.ObjectId(),
       section_name: body.section_name,
+      term: body.term,
+      grade_level: body.grade_level,
+      strand: body.strand,
       teacher_id: body.teacher_id,
       students_id: body.students_id,
       schedules_id: body.schedules_id,
@@ -63,6 +66,19 @@ export class SectionService {
       const theBody = { section_id: parsedSection._id };
       parsedSection.schedules_id.map(async (schedule_id) => {
         await this.scheduleService.updateSchedule(schedule_id, theBody);
+        const subject = await this.scheduleService.getParsedSchedule(
+          schedule_id
+        );
+        const reportCardBody = {
+          subject: subject.subject,
+          term: parsedSection.term,
+          grade_level: parsedSection.grade_level,
+          remarks: '',
+        };
+
+        parsedSection.students_id.map(async (id) => {
+          await this.usersService.addSubject(id, reportCardBody);
+        });
       });
     }
 
@@ -101,6 +117,9 @@ export class SectionService {
     const parsedSection = await this.sectionModel.findByIdAndUpdate(id, {
       section_name: body.section_name ?? section.section_name,
       teacher_id: body.teacher_id ?? section.teacher_id,
+      term: body.term ?? section.term,
+      grade_level: body.grade_level ?? section.grade_level,
+      strand: body.strand ?? section.strand,
       students_id: body.students_id ?? section.students_id,
       schedules_id: body.schedules_id ?? section.schedules_id,
       school_year: body.school_year ?? section.school_year,
@@ -117,6 +136,25 @@ export class SectionService {
         body.teacher_id,
         parsedSection._id
       );
+    }
+    if (body.schedules_id) {
+      const theBody = { section_id: parsedSection._id };
+      parsedSection.schedules_id.map(async (schedule_id) => {
+        await this.scheduleService.updateSchedule(schedule_id, theBody);
+        const subject = await this.scheduleService.getParsedSchedule(
+          schedule_id
+        );
+        const reportCardBody = {
+          subject: subject.subject,
+          term: parsedSection.term,
+          grade_level: parsedSection.grade_level,
+          remarks: '',
+        };
+
+        parsedSection.students_id.map(async (id) => {
+          await this.usersService.addSubject(id, reportCardBody);
+        });
+      });
     }
 
     return parsedSection;
@@ -140,7 +178,12 @@ export class SectionService {
     );
   }
 
-  async addScheduleToSection(section_id, schedule_id) {
+  async addScheduleToSection(section_id, schedule_id, body) {
+    const section = await this.getSection(section_id);
+    const schedule = await this.scheduleService.getSchedule(schedule_id);
+    section.students_id.map(async (id) => {
+      await this.usersService.addSubject(id, body);
+    });
     return await this.sectionModel.findByIdAndUpdate(
       { _id: section_id },
       {
