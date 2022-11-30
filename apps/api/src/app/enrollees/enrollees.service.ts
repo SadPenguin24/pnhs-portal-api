@@ -74,7 +74,9 @@ export class EnrolleeService {
 
     let hashPass;
 
-    if (password === c_password) hashPass = await bcrypt.hash(password, 10);
+    if(password){
+      if (password === c_password) hashPass = await bcrypt.hash(password, 10);
+    }
 
     const enrollee = await this.getEnrolleeById(id);
 
