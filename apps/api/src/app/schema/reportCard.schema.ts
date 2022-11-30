@@ -11,6 +11,8 @@ export class ReportCard {
   @Prop()
   grade_level: number;
   @Prop()
+  remarks: string;
+  @Prop()
   term: number;
   @Prop()
   first_half: number;

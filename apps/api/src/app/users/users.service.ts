@@ -70,7 +70,7 @@ export class UsersService {
   }
 
   async addSubject(id, body) {
-    const { subject, term, grade_level } = body;
+    const { subject, term, grade_level, remarks } = body;
     return await this.userModel.findByIdAndUpdate(
       { _id: id },
       {
@@ -79,6 +79,7 @@ export class UsersService {
             subject: subject,
             term: term,
             grade_level: grade_level,
+            remarks: remarks,
             first_half: 0,
             second_half: 0,
             final_grade: 0,
@@ -142,6 +143,8 @@ export class UsersService {
     const patchedUser = user.student;
 
     patchedUser.report_card[subj_index].term = body.term;
+    patchedUser.report_card[subj_index].remarks = body.remarks;
+    patchedUser.report_card[subj_index].grade_level = body.grade_level;
     patchedUser.report_card[subj_index].first_half = body.first_half;
     patchedUser.report_card[subj_index].second_half = body.second_half;
     patchedUser.report_card[subj_index].final_grade = body.final_grade;
