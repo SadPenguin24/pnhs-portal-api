@@ -26,8 +26,9 @@ export class AuthService {
 
     if (user && passwordValid) {
       return user;
+    } else {
+      throw new NotAcceptableException('Email or password is wrong');
     }
-    return null;
   }
 
   async login(user: any) {
