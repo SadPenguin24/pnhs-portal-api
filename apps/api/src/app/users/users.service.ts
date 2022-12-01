@@ -59,34 +59,53 @@ export class UsersService {
   }
 
   async insertScheduleToFaculty(teacher_id, schedule_id, section_id) {
-    return await this.userModel.findByIdAndUpdate(teacher_id, {
-      $push: {
-        'faculty.handled_subjects': {
-          section_id: section_id,
-          schedule_id: schedule_id,
-        },
+    const isHere = await this.userModel.findOne({
+      'faculty.handled_subjects': {
+        section_id: section_id,
+        schedule_id: schedule_id,
       },
     });
+
+    if (!isHere) {
+      return await this.userModel.findByIdAndUpdate(teacher_id, {
+        $push: {
+          'faculty.handled_subjects': {
+            section_id: section_id,
+            schedule_id: schedule_id,
+          },
+        },
+      });
+    } else {
+      return 'faculty already has the handled subject';
+    }
   }
 
   async addSubject(id, body) {
     const { subject, term, grade_level, remarks } = body;
-    return await this.userModel.findByIdAndUpdate(
-      { _id: id },
-      {
-        $push: {
-          'student.report_card': {
-            subject: subject,
-            term: term,
-            grade_level: grade_level,
-            remarks: remarks,
-            first_half: 0,
-            second_half: 0,
-            final_grade: 0,
+    const isHere = await this.userModel.findOne({
+      'student.report_card.subject._id': subject._id,
+    });
+
+    if (!isHere) {
+      return await this.userModel.findByIdAndUpdate(
+        { _id: id },
+        {
+          $push: {
+            'student.report_card': {
+              subject: subject,
+              term: term,
+              grade_level: grade_level,
+              remarks: remarks,
+              first_half: 0,
+              second_half: 0,
+              final_grade: 0,
+            },
           },
-        },
-      }
-    );
+        }
+      );
+    } else {
+      return isHere;
+    }
   }
 
   async convertEtoS(id) {
