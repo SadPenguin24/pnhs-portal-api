@@ -47,7 +47,7 @@ export class UsersService {
       });
     } else if (type === 'faculty') {
       const teacher = await this.getUserById(user_id);
-      if (!teacher.faculty.advisory_section_ids.includes(section_id)) {
+      if (!teacher.faculty['advisory_section_ids'].includes(section_id)) {
         return await this.userModel.findByIdAndUpdate(user_id, {
           $push: {
             'faculty.advisory_section_ids': section_id.toString(),
@@ -166,7 +166,6 @@ export class UsersService {
       middle_name,
       role,
       student,
-      faculty,
       admin,
       profile,
     } = body;
@@ -180,20 +179,43 @@ export class UsersService {
       } else {
         const hashPass = await bcrypt.hash(password, 10);
 
-        const newUser = await this.userModel.create({
-          _id: new Types.ObjectId(),
-          last_name: last_name,
-          first_name: first_name,
-          middle_name: middle_name,
-          email: email,
-          password: hashPass,
-          role: role,
-          student: student,
-          faculty: faculty,
-          admin: admin,
-          profile: profile,
-        });
-        return newUser;
+        if(role === 'faculty'){
+          const newUser = await this.userModel.create({
+            _id: new Types.ObjectId(),
+            last_name: last_name,
+            first_name: first_name,
+            middle_name: middle_name,
+            email: email,
+            password: hashPass,
+            role: role,
+            student: student,
+            admin: admin,
+            profile: profile,
+            faculty: {
+              advisory_section_ids: [],
+              handled_subjects: []
+            },
+          });
+
+          return newUser;
+        }else{
+          const newUser = await this.userModel.create({
+            _id: new Types.ObjectId(),
+            last_name: last_name,
+            first_name: first_name,
+            middle_name: middle_name,
+            email: email,
+            password: hashPass,
+            role: role,
+            student: student,
+            admin: admin,
+            profile: profile,
+          });
+
+          return newUser;
+        }
+
+        
       }
     } catch (err) {
       console.log('error create User: ', err);

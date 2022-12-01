@@ -13,9 +13,9 @@ export class Section {
   @Prop()
   section_name: string;
   @Prop()
-  term: string;
+  term: number;
   @Prop()
-  grade_level: string;
+  grade_level: number;
   @Prop()
   strand: string;
   @Prop()
