@@ -25,18 +25,6 @@ export class SectionService {
   }
 
   async createSection(body) {
-    const students = await this.usersService.getRole(body.role);
-
-    const classStudents = [];
-
-    body.students_id.map((student) => {
-      students.map((v) => {
-        if (v._id.toString() === student) {
-          classStudents.push(v);
-        }
-      });
-    });
-
     const parsedSection = await this.sectionModel.create({
       _id: new Types.ObjectId(),
       section_name: body.section_name,
@@ -44,42 +32,16 @@ export class SectionService {
       grade_level: body.grade_level,
       strand: body.strand,
       teacher_id: body.teacher_id,
-      students_id: body.students_id,
       schedules_id: body.schedules_id,
       school_year: body.school_year,
     });
 
     if (parsedSection) {
-      body.students_id.map(
-        async (id) =>
-          await this.usersService.assignSectionToUser(
-            'student',
-            id,
-            parsedSection._id
-          )
-      );
       await this.usersService.assignSectionToUser(
         'faculty',
         body.teacher_id,
         parsedSection._id
       );
-      const theBody = { section_id: parsedSection._id };
-      parsedSection.schedules_id.map(async (schedule_id) => {
-        await this.scheduleService.updateSchedule(schedule_id, theBody);
-        const subject = await this.scheduleService.getParsedSchedule(
-          schedule_id
-        );
-        const reportCardBody = {
-          subject: subject.subject,
-          term: parsedSection.term,
-          grade_level: parsedSection.grade_level,
-          remarks: '',
-        };
-
-        parsedSection.students_id.map(async (id) => {
-          await this.usersService.addSubject(id, reportCardBody);
-        });
-      });
     }
 
     return parsedSection;
