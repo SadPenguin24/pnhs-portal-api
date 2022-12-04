@@ -26,13 +26,13 @@ export class SectionController {
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.Admin, Role.Faculty)
+  @Roles(Role.Admin, Role.Faculty, Role.Student)
   @Get('/parsed')
   getAllParsedSections() {
     return this.sectionService.getAllParsedSections();
   }
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.Admin, Role.Faculty)
+  @Roles(Role.Admin, Role.Faculty, Role.Student)
   @Get('/parsed/:id')
   getParsedSection(@Param() param) {
     return this.sectionService.getParsedSection(param.id);
@@ -70,7 +70,7 @@ export class SectionController {
     return this.sectionService.createSection(body);
   }
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.Admin, Role.Faculty)
+  @Roles(Role.Admin, Role.Faculty, Role.Student)
   @Put('/update/:id')
   updateSection(@Param() param, @Body() body) {
     return this.sectionService.updateSection(param.id, body);

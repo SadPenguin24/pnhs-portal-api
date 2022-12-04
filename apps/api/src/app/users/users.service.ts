@@ -82,11 +82,14 @@ export class UsersService {
 
   async addSubject(id, body) {
     const { subject, term, grade_level, remarks } = body;
-    const isHere = await this.userModel.findOne({
-      'student.report_card.subject._id': subject._id,
+    const user = await this.userModel.findById({_id: id
     });
 
-    if (!isHere) {
+    const isHere = user.student.report_card.map(report_card => {
+      return report_card["subject"]._id.toString() === subject._id.toString()
+    })
+
+    if (isHere === undefined || isHere.length === 0 || !isHere.includes(true)){
       return await this.userModel.findByIdAndUpdate(
         { _id: id },
         {
@@ -104,7 +107,7 @@ export class UsersService {
         }
       );
     } else {
-      return isHere;
+      return "Report card is in student.";
     }
   }
 

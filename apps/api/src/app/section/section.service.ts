@@ -99,7 +99,6 @@ export class SectionService {
         parsedSection._id
       );
     }
-    if (body.schedules_id) {
       const theBody = { section_id: parsedSection._id };
       parsedSection.schedules_id.map(async (schedule_id) => {
         await this.scheduleService.updateSchedule(schedule_id, theBody);
@@ -117,7 +116,7 @@ export class SectionService {
           await this.usersService.addSubject(id, reportCardBody);
         });
       });
-    }
+    
 
     return parsedSection;
   }
