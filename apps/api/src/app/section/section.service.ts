@@ -42,6 +42,9 @@ export class SectionService {
         body.teacher_id,
         parsedSection._id
       );
+      parsedSection.schedules_id.map(async schedule_id => {
+        await this.scheduleService.updateSchedule(schedule_id, {section_id: parsedSection._id});
+      })
     }
 
     return parsedSection;
