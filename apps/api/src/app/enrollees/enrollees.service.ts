@@ -31,6 +31,13 @@ export class EnrolleeService {
       lrn,
       good_moral,
       strand,
+      birth_date,
+      age,
+      sex,
+      nationality,
+      religion,
+      civil_status,
+      emergency_contacts
     } = body;
 
     let hashPass;
@@ -51,6 +58,13 @@ export class EnrolleeService {
       lrn: lrn,
       good_moral: good_moral,
       strand: strand,
+      birth_date: birth_date,
+      age: age,
+      sex: sex,
+      nationality: nationality,
+      religion: religion,
+      civil_status: civil_status,
+      emergency_contacts: emergency_contacts,
     });
   }
 
@@ -69,7 +83,14 @@ export class EnrolleeService {
       grade_10_card,
       lrn,
       good_moral,
-      strand,
+      strand,      
+      birth_date,
+      age,
+      sex,
+      nationality,
+      religion,
+      civil_status,
+      emergency_contacts
     } = body;
 
     let hashPass;
@@ -94,6 +115,13 @@ export class EnrolleeService {
       lrn: lrn ?? enrollee.lrn,
       good_moral: good_moral ?? enrollee.good_moral,
       strand: strand ?? enrollee.strand,
+      birth_date: birth_date ?? enrollee.birth_date,
+      age: age ?? enrollee.age,
+      sex: sex ?? enrollee.sex,
+      nationality: nationality ?? enrollee.nationality,
+      religion: religion ?? enrollee.religion,
+      civil_status: civil_status ?? enrollee.civil_status,
+      emergency_contacts: emergency_contacts ?? enrollee.emergency_contacts,
     });
   }
 

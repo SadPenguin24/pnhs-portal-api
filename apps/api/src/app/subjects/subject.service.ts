@@ -15,6 +15,7 @@ export class SubjectService {
       _id: new Types.ObjectId(),
       subject_name: body.subject_name,
       strand: body.strand,
+      type: body.type
     });
 
     return newSubject;
@@ -24,6 +25,7 @@ export class SubjectService {
     return await this.subjectModel.findByIdAndUpdate(id, {
       subject_name: body.subject_name,
       strand: body.strand,
+      type: body.type
     });
   }
 
