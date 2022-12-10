@@ -23,6 +23,24 @@ export class Enrollee {
   lrn: string;
   @Prop()
   strand: string;
+  @Prop()
+  birth_date: string;
+  @Prop()
+  age: string;
+  @Prop()
+  sex: string;
+  @Prop()
+  nationality: string;
+  @Prop()
+  religion: string;
+  @Prop()
+  civil_status: string;
+  @Prop()
+  emergency_contacts: {
+    ec_full_name: string;
+    ec_relationship: string;
+    ec_mobile_number: string;
+  }[];
   // base64 images
   @Prop()
   birth_certificate: string;

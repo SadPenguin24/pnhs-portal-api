@@ -13,6 +13,14 @@ export class Student {
   @Prop()
   current_grade: string;
   @Prop()
+  lrn: string;
+  @Prop()
+  good_moral: string;
+  @Prop()
+  birth_certificate: string;
+  @Prop()
+  grade_10_card: string;
+  @Prop()
   report_card: ReportCard[];
 }
 

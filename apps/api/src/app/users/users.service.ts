@@ -128,6 +128,13 @@ export class UsersService {
       lrn,
       good_moral,
       strand,
+      birth_date,
+      age,
+      sex,
+      nationality,
+      religion,
+      civil_status,
+      emergency_contacts
     } = enrollee;
 
     const new_user = await this.userModel.create({
@@ -137,15 +144,21 @@ export class UsersService {
       last_name: last_name,
       email: email,
       password: password,
-      student: { strand: strand },
+      student: { strand: strand,birth_certificate: birth_certificate,
+        grade_10_card: grade_10_card,
+        lrn: lrn,
+        good_moral: good_moral, },
       profile: {
         address: address,
         phone_number: phone_number,
-        birth_certificate: birth_certificate,
         picture_2x2: picture_2x2,
-        grade_10_card: grade_10_card,
-        lrn: lrn,
-        good_moral: good_moral,
+        birth_date: birth_date,
+        age: age,
+        sex: sex,
+        nationality: nationality,
+        religion: religion,
+        civil_status: civil_status,
+        emergency_contacts: emergency_contacts,
       },
       role: ['student'],
     });
@@ -210,8 +223,6 @@ export class UsersService {
             email: email,
             password: hashPass,
             role: role,
-            student: student,
-            admin: admin,
             profile: profile,
             faculty: {
               advisory_section_ids: [],

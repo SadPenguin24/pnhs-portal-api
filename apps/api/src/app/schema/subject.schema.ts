@@ -11,6 +11,8 @@ export class Subject {
   subject_name: string;
   @Prop()
   strand: string;
+  @Prop()
+  type: string;
 }
 
 export const SubjectSchema = SchemaFactory.createForClass(Subject);
