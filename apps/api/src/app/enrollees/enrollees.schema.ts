@@ -50,6 +50,10 @@ export class Enrollee {
   grade_10_card: string;
   @Prop()
   good_moral: string;
+  @Prop()
+  current_grade: string;
+  @Prop()
+  current_term: string;
 }
 
 export const EnrolleeSchema = SchemaFactory.createForClass(Enrollee);

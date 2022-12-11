@@ -13,6 +13,8 @@ export class Student {
   @Prop()
   current_grade: string;
   @Prop()
+  current_term: string;
+  @Prop()
   lrn: string;
   @Prop()
   good_moral: string;

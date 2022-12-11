@@ -82,14 +82,13 @@ export class UsersService {
 
   async addSubject(id, body) {
     const { subject, term, grade_level, remarks } = body;
-    const user = await this.userModel.findById({_id: id
+    const user = await this.userModel.findById({ _id: id });
+
+    const isHere = user.student.report_card.map((report_card) => {
+      return report_card['subject']._id.toString() === subject._id.toString();
     });
 
-    const isHere = user.student.report_card.map(report_card => {
-      return report_card["subject"]._id.toString() === subject._id.toString()
-    })
-
-    if (isHere === undefined || isHere.length === 0 || !isHere.includes(true)){
+    if (isHere === undefined || isHere.length === 0 || !isHere.includes(true)) {
       return await this.userModel.findByIdAndUpdate(
         { _id: id },
         {
@@ -107,7 +106,7 @@ export class UsersService {
         }
       );
     } else {
-      return "Report card is in student.";
+      return 'Report card is in student.';
     }
   }
 
@@ -134,7 +133,9 @@ export class UsersService {
       nationality,
       religion,
       civil_status,
-      emergency_contacts
+      emergency_contacts,
+      current_grade,
+      current_term,
     } = enrollee;
 
     const new_user = await this.userModel.create({
@@ -144,10 +145,15 @@ export class UsersService {
       last_name: last_name,
       email: email,
       password: password,
-      student: { strand: strand,birth_certificate: birth_certificate,
+      student: {
+        strand: strand,
+        birth_certificate: birth_certificate,
         grade_10_card: grade_10_card,
         lrn: lrn,
-        good_moral: good_moral, },
+        good_moral: good_moral,
+        current_grade: current_grade,
+        current_term: current_term,
+      },
       profile: {
         address: address,
         phone_number: phone_number,
@@ -214,7 +220,7 @@ export class UsersService {
       } else {
         const hashPass = await bcrypt.hash(password, 10);
 
-        if(role === 'faculty'){
+        if (role === 'faculty') {
           const newUser = await this.userModel.create({
             _id: new Types.ObjectId(),
             last_name: last_name,
@@ -226,12 +232,12 @@ export class UsersService {
             profile: profile,
             faculty: {
               advisory_section_ids: [],
-              handled_subjects: []
+              handled_subjects: [],
             },
           });
 
           return newUser;
-        }else{
+        } else {
           const newUser = await this.userModel.create({
             _id: new Types.ObjectId(),
             last_name: last_name,
@@ -247,8 +253,6 @@ export class UsersService {
 
           return newUser;
         }
-
-        
       }
     } catch (err) {
       console.log('error create User: ', err);

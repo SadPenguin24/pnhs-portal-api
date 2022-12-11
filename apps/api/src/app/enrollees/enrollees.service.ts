@@ -37,7 +37,9 @@ export class EnrolleeService {
       nationality,
       religion,
       civil_status,
-      emergency_contacts
+      emergency_contacts,
+      current_grade,
+      current_term,
     } = body;
 
     let hashPass;
@@ -64,6 +66,8 @@ export class EnrolleeService {
       nationality: nationality,
       religion: religion,
       civil_status: civil_status,
+      current_term: current_term,
+      current_grade: current_grade,
       emergency_contacts: emergency_contacts,
     });
   }
@@ -83,19 +87,21 @@ export class EnrolleeService {
       grade_10_card,
       lrn,
       good_moral,
-      strand,      
+      strand,
       birth_date,
       age,
       sex,
       nationality,
       religion,
       civil_status,
-      emergency_contacts
+      emergency_contacts,
+      current_grade,
+      current_term,
     } = body;
 
     let hashPass;
 
-    if(password){
+    if (password) {
       if (password === c_password) hashPass = await bcrypt.hash(password, 10);
     }
 
@@ -122,6 +128,8 @@ export class EnrolleeService {
       religion: religion ?? enrollee.religion,
       civil_status: civil_status ?? enrollee.civil_status,
       emergency_contacts: emergency_contacts ?? enrollee.emergency_contacts,
+      current_term: current_term ?? enrollee.current_term,
+      current_grade: current_grade ?? enrollee.current_grade,
     });
   }
 
