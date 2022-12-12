@@ -9,6 +9,7 @@ import { SectionModule } from './section/section.module';
 import { SubjectModule } from './subjects/subject.module';
 import { ScheduleModule } from './schedule/schedule.module';
 import { UsersModule } from './users/users.module';
+import { MiscModule } from './misc/misc.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { UsersModule } from './users/users.module';
     SubjectModule,
     EnrolleeModule,
     ScheduleModule,
+    MiscModule,
   ],
 })
 export class AppModule {}
