@@ -11,7 +11,7 @@ export class MiscController {
   constructor(private miscService: MiscService) {}
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.Admin, Role.Faculty)
+  @Roles(Role.Admin, Role.Faculty, Role.Student)
   @Get('/:id')
   getMisc(@Param() param) {
     return this.miscService.getMisc(param.id);
