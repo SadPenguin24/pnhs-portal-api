@@ -20,6 +20,7 @@ export class ScheduleService {
       teacher_id: body.teacher_id,
       subject_id: body.subject_id,
       section_id: body.section_id,
+      room: body.room,
       days: body.days,
       time_in: body.time_in,
       time_out: body.time_out,
@@ -68,8 +69,15 @@ export class ScheduleService {
   }
 
   async updateSchedule(id, body) {
-    const { teacher_id, subject_id, section_id, days, time_in, time_out } =
-      body;
+    const {
+      teacher_id,
+      subject_id,
+      section_id,
+      room,
+      days,
+      time_in,
+      time_out,
+    } = body;
     const schedule = await this.getSchedule(id);
 
     if (section_id) {
@@ -84,6 +92,7 @@ export class ScheduleService {
       teacher_id: teacher_id ?? schedule.teacher_id,
       subject_id: subject_id ?? schedule.subject_id,
       section_id: section_id ?? schedule.section_id,
+      room: room ?? schedule.room,
       days: days ?? schedule.days,
       time_in: time_in ?? schedule.time_in,
       time_out: time_out ?? schedule.time_out,
