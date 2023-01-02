@@ -11,6 +11,8 @@ export class Student {
   @Prop()
   section_id: string;
   @Prop()
+  school_year: string;
+  @Prop()
   current_grade: string;
   @Prop()
   current_term: string;
