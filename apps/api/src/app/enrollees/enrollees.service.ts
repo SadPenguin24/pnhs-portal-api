@@ -40,6 +40,7 @@ export class EnrolleeService {
       emergency_contacts,
       current_grade,
       current_term,
+      school_year,
     } = body;
 
     let hashPass;
@@ -69,6 +70,7 @@ export class EnrolleeService {
       current_term: current_term,
       current_grade: current_grade,
       emergency_contacts: emergency_contacts,
+      school_year: school_year,
     });
   }
 
@@ -97,6 +99,7 @@ export class EnrolleeService {
       emergency_contacts,
       current_grade,
       current_term,
+      school_year,
     } = body;
 
     let hashPass;
@@ -130,6 +133,7 @@ export class EnrolleeService {
       emergency_contacts: emergency_contacts ?? enrollee.emergency_contacts,
       current_term: current_term ?? enrollee.current_term,
       current_grade: current_grade ?? enrollee.current_grade,
+      school_year: school_year ?? enrollee.school_year,
     });
   }
 

@@ -54,6 +54,8 @@ export class Enrollee {
   current_grade: string;
   @Prop()
   current_term: string;
+  @Prop()
+  school_year: string;
 }
 
 export const EnrolleeSchema = SchemaFactory.createForClass(Enrollee);

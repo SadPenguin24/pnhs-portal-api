@@ -136,6 +136,7 @@ export class UsersService {
       emergency_contacts,
       current_grade,
       current_term,
+      school_year,
     } = enrollee;
 
     const new_user = await this.userModel.create({
@@ -153,6 +154,7 @@ export class UsersService {
         good_moral: good_moral,
         current_grade: current_grade,
         current_term: current_term,
+        school_year: school_year,
       },
       profile: {
         address: address,
