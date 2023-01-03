@@ -10,6 +10,7 @@ import { SubjectModule } from './subjects/subject.module';
 import { ScheduleModule } from './schedule/schedule.module';
 import { UsersModule } from './users/users.module';
 import { MiscModule } from './misc/misc.module';
+import { CurriculumModule } from './curriculum/curriculum.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { MiscModule } from './misc/misc.module';
     EnrolleeModule,
     ScheduleModule,
     MiscModule,
+    CurriculumModule,
   ],
 })
 export class AppModule {}
