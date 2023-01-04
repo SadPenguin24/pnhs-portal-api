@@ -23,14 +23,12 @@ export class CurriculumService {
   }
 
   async updateCurriculum(id, body) {
-    const { school_year, strand, grade_level, term, subject_ids } = body;
-    return await this.curriculumModel.findById(id, {
-      _id: new Types.ObjectId(),
-      school_year,
-      strand,
-      grade_level,
-      term,
-      subject_ids,
+    return await this.curriculumModel.findByIdAndUpdate(id, {
+      school_year: body.school_year,
+      strand: body.strand,
+      grade_level: body.grade_level,
+      term: body.term,
+      subject_ids: body.subject_ids
     });
   }
 
