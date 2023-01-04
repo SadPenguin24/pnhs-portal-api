@@ -8,6 +8,7 @@ import {
   Param,
   Put,
   Patch,
+  Delete,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Roles } from '../roles/roles.decorator';
@@ -68,6 +69,15 @@ export class UsersController {
       param.student_id,
       param.subject_id,
       body
+    );
+  }
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin, Role.Faculty)
+  @Delete('/delete/:student_id/:subject_id')
+  deleteReportCard(@Param() param) {
+    return this.usersService.deleteReportCard(
+      param.student_id,
+      param.subject_id
     );
   }
 
