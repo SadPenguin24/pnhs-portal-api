@@ -4,6 +4,7 @@ import { SectionService } from '../section/section.service';
 import { ScheduleService } from '../schedule/schedule.service';
 import { EnrolleeService } from '../enrollees/enrollees.service';
 import { CurriculumService } from '../curriculum/curriculum.service';
+import { SubjectService } from '../subjects/subject.service';
 
 @Injectable()
 export class DeleteService {
@@ -12,7 +13,8 @@ export class DeleteService {
     private sectionService: SectionService,
     private scheduleService: ScheduleService,
     private curriculumService: CurriculumService,
-    private enrolleeService: EnrolleeService
+    private enrolleeService: EnrolleeService,
+    private subjectService: SubjectService
   ) {}
 
   async deleteSchedule(id) {
@@ -30,6 +32,7 @@ export class DeleteService {
       return `deleteSchedule Error: ${e}`;
     }
   }
+
   async deleteSection(id) {
     try {
       const section = await this.sectionService.getSection(id);
@@ -58,6 +61,12 @@ export class DeleteService {
       return `deleteEnrollee Error: ${e}`;
     }
   }
+
+  async deleteSubject(id) {
+    await this.deleteSchedule(id);
+    return await this.subjectService.deleteSubject(id);
+  }
+
   async deleteCurriculum(id) {
     try {
       return await this.curriculumService.deleteCurriculum(id);

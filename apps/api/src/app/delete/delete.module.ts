@@ -10,6 +10,7 @@ import { SectionModule } from '../section/section.module';
 import { ScheduleModule } from '../schedule/schedule.module';
 import { EnrolleeModule } from '../enrollees/enrollees.module';
 import { CurriculumModule } from '../curriculum/curriculum.module';
+import { SubjectModule } from '../subjects/subject.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { CurriculumModule } from '../curriculum/curriculum.module';
     ScheduleModule,
     EnrolleeModule,
     CurriculumModule,
+    SubjectModule,
   ],
   providers: [DeleteService, LocalStrategy, JwtStrategy],
   exports: [DeleteService],

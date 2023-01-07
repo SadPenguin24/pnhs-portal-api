@@ -19,6 +19,13 @@ export class DeleteController {
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin, Role.Faculty, Role.Student)
+  @Delete('/subject/:id')
+  deleteSubject(@Param() param) {
+    return this.deleteService.deleteSubject(param.id);
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin, Role.Faculty, Role.Student)
   @Delete('/section/:id')
   deleteSection(@Param() param) {
     return this.deleteService.deleteSection(param.id);
