@@ -99,6 +99,10 @@ export class ScheduleService {
     });
   }
 
+  async removeSection(id) {
+    return await this.scheduleModel.findByIdAndUpdate(id, { section_id: null });
+  }
+
   async deleteSchedule(id) {
     return await this.scheduleModel.findByIdAndDelete({ _id: id });
   }

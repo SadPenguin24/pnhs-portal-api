@@ -11,6 +11,7 @@ import { ScheduleModule } from './schedule/schedule.module';
 import { UsersModule } from './users/users.module';
 import { MiscModule } from './misc/misc.module';
 import { CurriculumModule } from './curriculum/curriculum.module';
+import { DeleteModule } from './delete/delete.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { CurriculumModule } from './curriculum/curriculum.module';
     ScheduleModule,
     MiscModule,
     CurriculumModule,
+    DeleteModule,
   ],
 })
 export class AppModule {}

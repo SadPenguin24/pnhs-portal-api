@@ -1,9 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 
-import { Subject } from './subject.schema';
-import { Schedule } from './schedule.schema';
-
 export type SectionDocument = Section & Document;
 
 @Schema()

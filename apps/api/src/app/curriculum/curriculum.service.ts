@@ -28,8 +28,12 @@ export class CurriculumService {
       strand: body.strand,
       grade_level: body.grade_level,
       term: body.term,
-      subject_ids: body.subject_ids
+      subject_ids: body.subject_ids,
     });
+  }
+
+  async deleteCurriculum(id) {
+    return await this.curriculumModel.findByIdAndDelete(id);
   }
 
   async getCurriculum(id) {

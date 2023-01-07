@@ -42,9 +42,11 @@ export class SectionService {
         body.teacher_id,
         parsedSection._id
       );
-      parsedSection.schedules_id.map(async schedule_id => {
-        await this.scheduleService.updateSchedule(schedule_id, {section_id: parsedSection._id});
-      })
+      parsedSection.schedules_id.map(async (schedule_id) => {
+        await this.scheduleService.updateSchedule(schedule_id, {
+          section_id: parsedSection._id,
+        });
+      });
     }
 
     return parsedSection;
@@ -102,24 +104,21 @@ export class SectionService {
         parsedSection._id
       );
     }
-      const theBody = { section_id: parsedSection._id };
-      parsedSection.schedules_id.map(async (schedule_id) => {
-        await this.scheduleService.updateSchedule(schedule_id, theBody);
-        const subject = await this.scheduleService.getParsedSchedule(
-          schedule_id
-        );
-        const reportCardBody = {
-          subject: subject.subject,
-          term: parsedSection.term,
-          grade_level: parsedSection.grade_level,
-          remarks: '',
-        };
+    const theBody = { section_id: parsedSection._id };
+    parsedSection.schedules_id.map(async (schedule_id) => {
+      await this.scheduleService.updateSchedule(schedule_id, theBody);
+      const subject = await this.scheduleService.getParsedSchedule(schedule_id);
+      const reportCardBody = {
+        subject: subject.subject,
+        term: parsedSection.term,
+        grade_level: parsedSection.grade_level,
+        remarks: '',
+      };
 
-        parsedSection.students_id.map(async (id) => {
-          await this.usersService.addSubject(id, reportCardBody);
-        });
+      parsedSection.students_id.map(async (id) => {
+        await this.usersService.addSubject(id, reportCardBody);
       });
-    
+    });
 
     return parsedSection;
   }
@@ -144,7 +143,6 @@ export class SectionService {
 
   async addScheduleToSection(section_id, schedule_id, body) {
     const section = await this.getSection(section_id);
-    const schedule = await this.scheduleService.getSchedule(schedule_id);
     section.students_id.map(async (id) => {
       await this.usersService.addSubject(id, body);
     });
@@ -194,5 +192,24 @@ export class SectionService {
         async (section) => await this.getParsedSection(section['_id'])
       )
     );
+  }
+
+  async deleteSection(id) {
+    return await this.sectionModel.findByIdAndDelete(id);
+  }
+
+  async removeSchedule(section_id, schedule_id) {
+    try {
+      const section = await this.getSection(section_id);
+      const scheduleIndex = section.schedules_id.findIndex(
+        (id) => id === schedule_id
+      );
+      section.schedules_id.splice(scheduleIndex, 1);
+      return this.sectionModel.findByIdAndUpdate(section_id, {
+        schedules_id: section.schedules_id,
+      });
+    } catch (e) {
+      return `removeSchedule Section Error: ${e}`;
+    }
   }
 }

@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { Section } from './section.schema';
 
 export type FacultyDocument = Faculty & Document;
 

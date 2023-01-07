@@ -327,4 +327,42 @@ export class UsersService {
     });
     return userStrands;
   }
+
+  async removeFacultySchedule(teacher_id, schedule_id) {
+    try {
+      const user = await this.getUserById(teacher_id);
+      const scheduleIndex = user.faculty.handled_subjects.findIndex(
+        (handled_subject) => handled_subject.schedule_id === schedule_id
+      );
+      user.faculty.handled_subjects.splice(scheduleIndex, 1);
+      return await this.userModel.findByIdAndUpdate(teacher_id, {
+        faculty: user.faculty,
+      });
+    } catch (e) {
+      return `deleteFacultySchedule error: ${e}`;
+    }
+  }
+
+  async removeSection(section_id, user_id, role) {
+    try {
+      const user = await this.getUserById(user_id);
+
+      if (role === 'student') {
+        return await this.userModel.findByIdAndUpdate(user_id, {
+          'student.section_id': null,
+        });
+      } else {
+        const faculty = user.faculty;
+        const scheduleIndex = faculty.advisory_section_ids.findIndex(
+          (advisory_section_id) => advisory_section_id === section_id
+        );
+        faculty.advisory_section_ids.splice(scheduleIndex, 1);
+        return await this.userModel.findByIdAndUpdate(user_id, {
+          faculty: faculty,
+        });
+      }
+    } catch (e) {
+      return `removeSection error: ${e}`;
+    }
+  }
 }
