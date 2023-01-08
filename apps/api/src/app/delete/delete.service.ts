@@ -63,8 +63,16 @@ export class DeleteService {
   }
 
   async deleteSubject(id) {
-    await this.deleteSchedule(id);
-    return await this.subjectService.deleteSubject(id);
+    try {
+      const foundSchedules =
+        await this.scheduleService.findSchedulesBySubjectId(id);
+      return foundSchedules.map(
+        async (foundSchedule) =>
+          await this.deleteSchedule(foundSchedule._id.toString())
+      );
+    } catch (e) {
+      return `deleteSubject Error: ${e}`;
+    }
   }
 
   async deleteCurriculum(id) {

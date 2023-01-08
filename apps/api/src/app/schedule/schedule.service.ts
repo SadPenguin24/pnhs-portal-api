@@ -99,6 +99,10 @@ export class ScheduleService {
     });
   }
 
+  async findSchedulesBySubjectId(id) {
+    return await this.scheduleModel.find({ subject_id: id }).select('_id');
+  }
+
   async removeSection(id) {
     return await this.scheduleModel.findByIdAndUpdate(id, { section_id: null });
   }
