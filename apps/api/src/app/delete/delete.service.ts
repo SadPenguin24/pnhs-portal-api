@@ -66,10 +66,12 @@ export class DeleteService {
     try {
       const foundSchedules =
         await this.scheduleService.findSchedulesBySubjectId(id);
-      return foundSchedules.map(
+      foundSchedules.map(
         async (foundSchedule) =>
           await this.deleteSchedule(foundSchedule._id.toString())
       );
+
+      return await this.subjectService.deleteSubject(id);
     } catch (e) {
       return `deleteSubject Error: ${e}`;
     }
