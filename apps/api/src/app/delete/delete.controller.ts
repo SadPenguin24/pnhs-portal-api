@@ -44,4 +44,14 @@ export class DeleteController {
   deleteCurriculum(@Param() param) {
     return this.deleteService.deleteCurriculum(param.id);
   }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin, Role.Faculty)
+  @Delete('/reportcard/:student_id/:subject_id')
+  deleteReportCard(@Param() param) {
+    return this.deleteService.deleteReportCard(
+      param.student_id,
+      param.subject_id
+    );
+  }
 }

@@ -84,4 +84,24 @@ export class DeleteService {
       return `deleteCurriculum Error: ${e}`;
     }
   }
+
+  async deleteReportCard(student_id, subject_id) {
+    try {
+      const user = await this.userService.getUserById(student_id);
+
+      const subj_index = user.student.report_card.findIndex((report_card) => {
+        return report_card.subject._id.toString() == subject_id;
+      });
+
+      const patchedUser = user.student;
+
+      patchedUser.report_card.splice(subj_index);
+
+      return await this.userService.updateUser(student_id, {
+        student: patchedUser,
+      });
+    } catch (e) {
+      return `error message: ${e} `;
+    }
+  }
 }

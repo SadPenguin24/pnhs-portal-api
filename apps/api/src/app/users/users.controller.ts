@@ -71,15 +71,6 @@ export class UsersController {
       body
     );
   }
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.Admin, Role.Faculty)
-  @Delete('/delete/:student_id/:subject_id')
-  deleteReportCard(@Param() param) {
-    return this.usersService.deleteReportCard(
-      param.student_id,
-      param.subject_id
-    );
-  }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin, Role.Faculty)

@@ -19,11 +19,11 @@ export class Student {
   @Prop()
   lrn: string;
   @Prop()
-  good_moral: string;
+  good_moral: boolean;
   @Prop()
-  birth_certificate: string;
+  birth_certificate: boolean;
   @Prop()
-  grade_10_card: string;
+  grade_10_card: boolean;
   @Prop()
   report_card: ReportCard[];
 }

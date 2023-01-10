@@ -41,21 +41,20 @@ export class Enrollee {
     ec_relationship: string;
     ec_mobile_number: string;
   }[];
-  // base64 images
-  @Prop()
-  birth_certificate: string;
-  @Prop()
-  picture_2x2: string;
-  @Prop()
-  grade_10_card: string;
-  @Prop()
-  good_moral: string;
   @Prop()
   current_grade: string;
   @Prop()
   current_term: string;
   @Prop()
   school_year: string;
+  @Prop()
+  birth_certificate: boolean;
+  @Prop()
+  picture_2x2: boolean;
+  @Prop()
+  grade_10_card: boolean;
+  @Prop()
+  good_moral: boolean;
 }
 
 export const EnrolleeSchema = SchemaFactory.createForClass(Enrollee);

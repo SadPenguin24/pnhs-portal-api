@@ -10,7 +10,7 @@ export class Profile {
   @Prop()
   phone_number: string;
   @Prop()
-  picture_2x2: string;
+  picture_2x2: boolean;
   @Prop()
   birth_date: string;
   @Prop()
