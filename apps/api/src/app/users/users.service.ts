@@ -320,6 +320,15 @@ export class UsersService {
     }
   }
 
+  async passwordConfirm(id, body) {
+    const user = await this.userModel.findById({ _id: id });
+    const passwordValid = await bcrypt.compare(
+      body.password.toString(),
+      user.password
+    );
+    return passwordValid;
+  }
+
   async removeSection(section_id, user_id, role) {
     try {
       const user = await this.getUserById(user_id);

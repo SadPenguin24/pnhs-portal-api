@@ -71,6 +71,12 @@ export class UsersController {
       body
     );
   }
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin, Role.Faculty)
+  @Patch('/cpassword/:id')
+  passwordConfirm(@Param() param, @Body() body) {
+    return this.usersService.passwordConfirm(param.id, body);
+  }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin, Role.Faculty)

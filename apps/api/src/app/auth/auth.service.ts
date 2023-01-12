@@ -1,7 +1,6 @@
 import { Injectable, NotAcceptableException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
-import { getCookie, setCookie } from 'cookies-next';
 import { jwtConstants } from './constants';
 
 import * as bcrypt from 'bcrypt';
