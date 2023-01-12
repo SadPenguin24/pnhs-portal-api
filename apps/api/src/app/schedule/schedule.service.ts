@@ -104,7 +104,9 @@ export class ScheduleService {
   }
 
   async removeSection(id) {
-    return await this.scheduleModel.findByIdAndUpdate(id, { section_id: null });
+    return await this.scheduleModel.findByIdAndUpdate(id, {
+      $unset: { section_id: '' },
+    });
   }
 
   async deleteSchedule(id) {

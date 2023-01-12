@@ -326,7 +326,9 @@ export class UsersService {
 
       if (role === 'student') {
         return await this.userModel.findByIdAndUpdate(user_id, {
-          'student.section_id': null,
+          $unset: {
+            'student.section_id': '',
+          },
         });
       } else {
         const faculty = user.faculty;
